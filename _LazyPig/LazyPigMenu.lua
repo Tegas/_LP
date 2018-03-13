@@ -13,6 +13,13 @@ local CheckBoxTables = {
 		[3] = { "LazyPigCheckbox12", "Pass" }
 	},
 
+	["Naxxramas Roll Automation"] = {
+		[0] = "LazyPigCheckboxGroupNXRoll",
+		[1] = { "LazyPigCheckbox80", "Need" },
+		[2] = { "LazyPigCheckbox81", "Greed" },
+		[3] = { "LazyPigCheckbox82", "Pass" }
+	},
+
 	["World Chat Mute"] = {
 		[0] = "LazyPigCheckboxGroupWorldChatMute",
 		[1] = { "LazyPigCheckbox20", "Dungeons" },
@@ -231,7 +238,7 @@ function LazyPig_CreateOptionsFrame()
 	
 	local str = "Zul'Gurub Roll Automation"
 	frame.cbgroup_zgroll = CheckBoxGroup(frame, 20, -107, str, CheckBoxTables[str])
-
+	
 	local str = "World Chat Mute"
 	frame.cbgroup_worldchatmute = CheckBoxGroup(frame, 20, -168, str, CheckBoxTables[str])
 	
@@ -246,12 +253,15 @@ function LazyPig_CreateOptionsFrame()
 	
 	local str = "Chat Filter"
 	frame.cbgroup_salvationremover = CheckBoxGroup(frame, 250, -120, str, CheckBoxTables[str])
-
+	
 	local str = "Group Invite Accept Rules"
 	frame.cbgroup_groupinvite = CheckBoxGroup(frame, 250, -45, str, CheckBoxTables[str])
-
+	
 	local str = "Single Choice Rules"
 	frame.cbgroup_singlechoise = CheckBoxGroup(frame, 250, -242, str, CheckBoxTables[str])
+	
+	local str = "Naxxramas Roll Automation"
+	frame.cbgroup_nxroll = CheckBoxGroup(frame, 250, -348, str, CheckBoxTables[str])
 
 	return frame
 

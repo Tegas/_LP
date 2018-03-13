@@ -18,6 +18,7 @@ LPCONFIG = {
 	HPLATE = false, 
 	RIGHT = true, 
 	ZG = 1, 
+	NX = 0,
 	DUEL = false, 
 	NOSAVE = false, 
 	GREEN = 2, 
@@ -148,6 +149,9 @@ local LazyPigMenuStrings = {
 		[72]= "Rare Roll",
 		[73]= "Poor-Common-Money Loot",
 		
+		[80]= "Need",
+		[81]= "Greed",
+		[82]= "Pass",
 		
 		[90]= "Summon Auto Accept",
 		[91]= "Loot Window Auto Position",
@@ -527,9 +531,10 @@ function LazyPig_OnEvent(event)
 			
 	elseif(event == "START_LOOT_ROLL") then
 		LazyPig_ZGRoll(arg1)
+		LazyPig_NXRoll(arg1)
 	
 	elseif(event == "CHAT_MSG_LOOT") then
-		if (string.find(arg1 ,"You won") or string.find(arg1 ,"You receive")) and (string.find(arg1 ,"cffa335e") or string.find(arg1, "cff0070d") or string.find(arg1, "cffff840")) and not string.find(arg1 ,"Bijou") and not string.find(arg1 ,"Idol") and not string.find(arg1 ,"Shard") then
+		if (string.find(arg1 ,"You won") or string.find(arg1 ,"You receive")) and (string.find(arg1 ,"cffa335e") or string.find(arg1, "cff0070d") or string.find(arg1, "cffff840")) and not string.find(arg1 ,"Bijou") and not string.find(arg1 ,"Idol") and not string.find(arg1 ,"Shard") and not string.find(arg1 ,"Wartorn") then
 			save_time = GetTime()
 		end
 	
@@ -942,6 +947,29 @@ function LazyPig_ZGRoll(id)
 		local _, name, _, quality = GetLootRollItemInfo(id);
 		if string.find(name ,"Hakkari Bijou") or string.find(name ,"Coin") then
 			RollOnLoot(id, LPCONFIG.ZG);
+			local _, _, _, hex = GetItemQualityColor(quality)
+			DEFAULT_CHAT_FRAME:AddMessage("LazyPig: Auto "..hex..RollReturn().." "..GetLootRollItemLink(id))
+			return
+		end	
+	end	
+end
+
+function LazyPigNXRoll(id)
+	RollReturn = function()
+		local txt = ""
+		if LPCONFIG.NX == 1 then
+			txt = "NEED"
+		elseif LPCONFIG.NX == 2 then
+			txt = "GREED"
+		elseif LPCONFIG.NX == 0 then
+			txt = "PASS"
+		end
+		return txt
+	end
+	if LPCONFIG.NX then	
+		local _, name, _, quality = GetLootRollItemInfo(id);
+		if string.find(name ,"Wartorn") then
+			RollOnLoot(id, LPCONFIG.NX);
 			local _, _, _, hex = GetItemQualityColor(quality)
 			DEFAULT_CHAT_FRAME:AddMessage("LazyPig: Auto "..hex..RollReturn().." "..GetLootRollItemLink(id))
 			return
@@ -1788,6 +1816,21 @@ function LazyPig_SetOption(num)
 		if not checked then LPCONFIG.ZG = nil end
 		LazyPigMenuObjects[10]:SetChecked(nil)
 		LazyPigMenuObjects[11]:SetChecked(nil)
+	elseif num == 80 then 
+		LPCONFIG.NX = 1
+		if not checked then LPCONFIG.NX = nil end
+		LazyPigMenuObjects[81]:SetChecked(nil)
+		LazyPigMenuObjects[82]:SetChecked(nil)
+	elseif num == 81 then 
+		LPCONFIG.NX= 2
+		if not checked then LPCONFIG.NX = nil end
+		LazyPigMenuObjects[80]:SetChecked(nil)
+		LazyPigMenuObjects[82]:SetChecked(nil)
+	elseif num == 82 then 
+		LPCONFIG.NX = 0 
+		if not checked then LPCONFIG.NX = nil end
+		LazyPigMenuObjects[80]:SetChecked(nil)
+		LazyPigMenuObjects[81]:SetChecked(nil)
 	elseif num == 20 then															
 		LPCONFIG.WORLDDUNGEON = true					--fixed
 		if not checked then LPCONFIG.WORLDDUNGEON = nil end
