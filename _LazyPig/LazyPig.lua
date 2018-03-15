@@ -954,7 +954,7 @@ function LazyPig_ZGRoll(id)
 	end	
 end
 
-function LazyPigNXRoll(id)
+function LazyPig_NXRoll(id)
 	RollReturn = function()
 		local txt = ""
 		if LPCONFIG.NX == 1 then
