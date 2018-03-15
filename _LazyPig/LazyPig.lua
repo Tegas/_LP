@@ -1737,6 +1737,9 @@ function LazyPig_GetOption(num)
 	or num == 10 and LPCONFIG.ZG == 1		
 	or num == 11 and LPCONFIG.ZG == 2
 	or num == 12 and LPCONFIG.ZG == 0
+	or num == 80 and LPCONFIG.NX == 1		
+	or num == 81 and LPCONFIG.NX == 2
+	or num == 82 and LPCONFIG.NX == 0
 	or num == 20 and LPCONFIG.WORLDDUNGEON
 	or num == 21 and LPCONFIG.WORLDRAID
 	or num == 22 and LPCONFIG.WORLDBG
@@ -2158,6 +2161,7 @@ function LazyPig_ChatFrame_OnEvent(event)
 	if event == "CHAT_MSG_LOOT" or event == "CHAT_MSG_MONEY" then
 		local bijou = string.find(arg1 ,"Bijou")
 		local coin = string.find(arg1 ,"Coin")
+		local wartorn = string.find(arg1 ,"Wartorn")
 		
 		local green_roll = greenrolltime > GetTime()
 		local check_uncommon = LPCONFIG.SPAM_UNCOMMON and string.find(arg1 ,"1eff00")
@@ -2167,7 +2171,7 @@ function LazyPig_ChatFrame_OnEvent(event)
 	
 		local check1 = string.find(arg1 ,"You")
 		local check2 = string.find(arg1 ,"won") or string.find(arg1 ,"receive")
-		local check3 = LPCONFIG.ZG and (bijou or coin)
+		local check3 = (LPCONFIG.ZG and (bijou or coin)) or (LPCONFIG.NX and wartorn)
 		local check4 = check1 and not check3 and not green_roll or check2 
 
 		if not check4 and (check_uncommon or check_rare) or check_loot and not check1 or check_money then
